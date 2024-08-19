@@ -89,7 +89,7 @@ def seed_users():
                 new_user = User(
                     name=user['name'],
                     email=user['email'],
-                    password=user['password'],  # Ensure secure password handling
+                    password=user['password'], 
                     role=user.get("role", "user")
                 )
                 db.session.add(new_user)
