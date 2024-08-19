@@ -1,13 +1,7 @@
 services:
   - type: web
-    name: flask-app
+    name: my-flask-app
     env: python
-    region: oregon
-    plan: free
-    buildCommand: pip install -r requirements.txt && flask db upgrade
-    startCommand: gunicorn "app:create_app()"
-    envVars:
-      - key: FLASK_ENV
-        value: production
-      - key: DATABASE_URL
-        value: sqlite:///instance/database.db
+    buildCommand: pip install -r requirements.txt
+    startCommand: flask run --host=0.0.0.0 --port=10000
+    ...
