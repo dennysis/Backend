@@ -9,6 +9,7 @@ executing==2.0.1; python_version >= '3.5'
 faker==27.0.0; python_version >= '3.8'
 flask==2.2.5; python_version >= '3.7'
 flask-cors==4.0.1
+flask-login==0.6.3; python_version >= '3.7'
 flask-migrate==4.0.7; python_version >= '3.6'
 flask-restful==0.3.10
 flask-sqlalchemy==3.0.3; python_version >= '3.7'
