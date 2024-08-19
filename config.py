@@ -8,10 +8,7 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_mail import Mail
-from dotenv import load_dotenv
 
-
-load_dotenv()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
