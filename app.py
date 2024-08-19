@@ -749,10 +749,9 @@ def delete_admin(id):
     return jsonify({'message': 'Admin deleted successfully'})
 @app.route('/payment_status', methods=['GET'])
 def get_payment_status():
-    # Fetch inventory items with payment status
+    
     inventory_items = Inventory.query.all()
     
-    # Transform into a list of dictionaries
     payment_status = [
         {
             'id': item.id,
@@ -767,5 +766,4 @@ def get_payment_status():
     
     return jsonify(payment_status)
 if __name__ == "__main__":
-    
-    app.run( port=5555,debug=True)
+    app.run(port=5555, debug=True)
