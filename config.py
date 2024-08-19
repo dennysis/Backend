@@ -14,11 +14,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://freightx_database_user:zO9pfeFtiWjOl6YxDFNjWGZWfCEeGfEx@dpg-cqdu1p08fa8c73dsfef0-a.oregon-postgres.render.com/freightx_database')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret_key')  # Default if not set
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret_key') 
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this in your code!
+app.config["JWT_SECRET_KEY"] = "super-secret"  
 app.config["JWT_COOKIE_SAMESITE"]="Lax"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  
