@@ -32,7 +32,7 @@ app.config['MAIL_USE_SSL'] = False
 jwt = JWTManager(app)
 
 # Initialize CORS with restricted origins
-cors = CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}}, supports_credentials=True)
+cors = CORS(app, resources={r"/*": {"origins": ["https://backend-ea00.onrender.com"]}}, supports_credentials=True)
 mail=Mail(app)
 db = SQLAlchemy()
 db.init_app(app)
