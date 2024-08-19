@@ -1,8 +1,13 @@
 services:
   - type: web
-    name: my-flask-app
+    name: flask-app
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: flask run --port=5432
-
-    ...
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt && flask db upgrade
+    startCommand: flask run --host=0.0.0.0 --port=5000
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: DATABASE_URL
+        value: sqlite:///instance/database.db
