@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+Flask-Migrate
+Flask-CORS
+PyJWT
+Werkzeug
+gunicorn
