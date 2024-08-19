@@ -10,7 +10,7 @@ from flask_jwt_extended import JWTManager
 from flask_mail import Mail
 from dotenv import load_dotenv
 
-# Load environment variables from a .env file
+
 load_dotenv()
 
 app = Flask(__name__)
