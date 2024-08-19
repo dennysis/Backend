@@ -3,5 +3,6 @@ services:
     name: my-flask-app
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: flask run --host=0.0.0.0 --port=10000
+    startCommand: flask run --host=0.0.0.0 --port=5000
+
     ...
