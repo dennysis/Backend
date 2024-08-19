@@ -37,7 +37,7 @@ def seed_categories():
     db.session.commit()
     print(f"Seeded {len(categories)} categories (excluding 'Testing Category').")
 
-def seed_products(limit=500):
+def seed_products(limit=20):
     """Seeds the Product table using data from a fake store API and Faker."""
     # Fetch products from API
     products = fetch_data('https://fakestoreapi.com/products')
@@ -89,7 +89,7 @@ def seed_users():
                 new_user = User(
                     name=user['name'],
                     email=user['email'],
-                    password=user['password'], 
+                    password=user['password'],  # Ensure secure password handling
                     role=user.get("role", "user")
                 )
                 db.session.add(new_user)
@@ -98,23 +98,41 @@ def seed_users():
 
 def seed_inventory(limit=20):
     """Seeds the Inventory table with random data."""
+    # Fetch all product IDs from the products table
+    product_ids = [product.id for product in Product.query.all()]
+
+    if not product_ids:
+        print("No products available to seed inventory.")
+        return
+
     for i in range(limit):
         new_inventory = Inventory(
-            product_id=random.randint(1, limit),
+            product_id=random.choice(product_ids),  # Ensure the product_id is valid
             quantity=random.randint(10, 100),
             spoilt_quantity=random.randint(0, 10),
             payment_status=random.choice(['Paid', 'Pending', 'Overdue'])
         )
         db.session.add(new_inventory)
+    
     db.session.commit()
     print(f"Seeded {limit} inventory items.")
 
 def seed_transactions(limit=20):
     """Seeds the Transaction table with random data."""
+    inventory_ids = [inventory.id for inventory in Inventory.query.all()]
+    if not inventory_ids:
+        print("No inventory available to seed transactions.")
+        return
+
+    user_ids = [user.id for user in User.query.all()]
+    if not user_ids:
+        print("No users available to seed transactions.")
+        return
+
     for i in range(limit):
         new_transaction = Transaction(
-            user_id=random.randint(1, limit),
-            inventory_id=random.randint(1, limit),
+            user_id=random.choice(user_ids),
+            inventory_id=random.choice(inventory_ids),
             transaction_type=random.choice(['sale', 'purchase', 'return']),
             quantity=random.randint(1, 10)
         )
@@ -136,8 +154,11 @@ def seed_suppliers(limit=20):
 def seed_supply_requests(limit=20):
     """Seeds the SupplyRequest table with random data."""
     for i in range(limit):
+        product_ids = [product.id for product in Product.query.all()]
+        
+
         new_supply_request = SupplyRequest(
-            product_id=random.randint(1, limit),
+            product_id=random.choice(product_ids),
             quantity=random.randint(10, 100),
             clerk_id=random.randint(1, limit),
             status=random.choice(['pending', 'approved', 'rejected'])
@@ -149,8 +170,9 @@ def seed_supply_requests(limit=20):
 def seed_payments(limit=20):
     """Seeds the Payment table with random data."""
     for i in range(limit):
+        inventory_ids = [inventory.id for inventory in Inventory.query.all()]
         new_payment = Payment(
-            inventory_id=random.randint(1, limit),
+            inventory_id=random.choice(inventory_ids),
             amount=random.uniform(50.0, 500.0)
         )
         db.session.add(new_payment)
@@ -160,9 +182,11 @@ def seed_payments(limit=20):
 def seed_supplier_products(limit=20):
     """Seeds the SupplierProduct table with random data."""
     for i in range(limit):
+        supplier_ids = [supplier.id for supplier in Supplier.query.all()]
+        product_ids = [product.id for product in Product.query.all()]
         new_supplier_product = SupplierProduct(
-            supplier_id=random.randint(1, limit),
-            product_id=random.randint(1, limit),
+            supplier_id=random.choice(supplier_ids),
+            product_id=random.choice(product_ids),
             quantity=random.randint(10, 100),
             price=random.uniform(10.0, 100.0)
         )
@@ -173,8 +197,9 @@ def seed_supplier_products(limit=20):
 def seed_sales(limit=20):
     """Seeds the Sale table with random data."""
     for i in range(limit):
+        product_ids = [product.id for product in Product.query.all()]
         new_sale = Sale(
-            product_id=random.randint(1, limit),
+            product_id=random.choice(product_ids),
             quantity=random.randint(1, 10),
             price=random.uniform(20.0, 200.0)
         )
@@ -185,8 +210,9 @@ def seed_sales(limit=20):
 def seed_sale_returns(limit=20):
     """Seeds the SaleReturn table with random data."""
     for i in range(limit):
+        sale_ids = [sale.id for sale in Sale.query.all()]
         new_sale_return = SaleReturn(
-            sale_id=random.randint(1, limit),
+            sale_id=random.choice(sale_ids),
             quantity=random.randint(1, 5)
         )
         db.session.add(new_sale_return)
@@ -196,8 +222,9 @@ def seed_sale_returns(limit=20):
 def seed_purchases(limit=20):
     """Seeds the Purchase table with random data."""
     for i in range(limit):
+        product_ids = [product.id for product in Product.query.all()]
         new_purchase = Purchase(
-            product_id=random.randint(1, limit),
+            product_id=random.choice(product_ids),
             quantity=random.randint(1, 10),
             price=random.uniform(20.0, 200.0)
         )
@@ -208,7 +235,7 @@ def seed_purchases(limit=20):
 def seed_all():
     """Seeds all tables with initial data."""
     seed_categories()
-    seed_products(limit=500)
+    seed_products(limit=20)
     seed_users()
     seed_inventory(limit=20)
     seed_transactions(limit=20)
